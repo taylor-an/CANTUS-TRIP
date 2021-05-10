@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<EISCStudioProject version="3.00">
+    <Compile BUILDTYPE="executable" CC="ae32000-elf-gcc" AS="ae32000-elf-as" LD="ae32000-elf-ld" AR="ae32000-elf-ar" OBJDUMP="ae32000-elf-objdump" OBJCOPY="ae32000-elf-objcopy" CFLAGS="-Wall" LDFLAGS="-Wall -nostartfiles -lgcc -lc -lm" ASFLAGS="" ARFLAGS="-rcv" DISFLAGS="-dzShxl" OUTPUTDIR="output/" OBJDIR="obj/" DebugInfo="1" Wall="1" OPTLEVEL="0" OUTPUTFILE="W5500.elf" />
+    <Directory>
+        <INCDIR Name="../../include" />
+    </Directory>
+    <Files>
+        <Source Name="../../startup/start.S" />
+        <Source Name="main.c" />
+        <Source Name="../../startup/tripinit.c" />
+        <Header Name="../../include/cantus.h" />
+        <Header Name="../../include/tripinit.h" />
+        <Header Name="../../include/typedef.h" />
+        <Header Name="../../include/cantus/cache.h" />
+        <Header Name="../../include/cantus/gdma.h" />
+        <Header Name="../../include/cantus/gpio.h" />
+        <Header Name="../../include/cantus/i2s.h" />
+        <Header Name="../../include/cantus/interrupt.h" />
+        <Header Name="../../include/cantus/keyscan.h" />
+        <Header Name="../../include/cantus/nandctrl.h" />
+        <Header Name="../../include/cantus/norflash.h" />
+        <Header Name="../../include/cantus/paf.h" />
+        <Header Name="../../include/cantus/pmu.h" />
+        <Header Name="../../include/cantus/rtc.h" />
+        <Header Name="../../include/cantus/sdcard.h" />
+        <Header Name="../../include/cantus/spi.h" />
+        <Header Name="../../include/cantus/spiflash.h" />
+        <Header Name="../../include/cantus/timer.h" />
+        <Header Name="../../include/cantus/twi.h" />
+        <Header Name="../../include/cantus/uart.h" />
+        <Header Name="../../include/cantus/usb.h" />
+        <Header Name="../../include/cantus/util.h" />
+        <Header Name="../../include/cantus/voice_codec.h" />
+        <Header Name="../../include/cantus/watchdog.h" />
+        <LinkScript Name="../../startup/cantus.ld" />
+        <Library Name="../../lib/libCantus.a" />
+        <LastOpenFile Name="main.c" Line="1" />
+    </Files>
+    <Event cmd="" desc="" enable="true" />
+    <Debug>
+        <Argument Name="" />
+        <UseGlobalOption Name="true" />
+        <AutoCmd Name="set debug remote 0" />
+        <AutoCmd Name="set remote software-breakpoint-packet 1" />
+        <AutoCmd Name="tar remote :7878" />
+    </Debug>
+</EISCStudioProject>
