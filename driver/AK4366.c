@@ -1,0 +1,128 @@
+#include "cantus.h"
+
+#define AK4366_CTDI		1	// P6.0
+#define AK4366_CCLK		2	// P6.1
+#define AK4366_CSN		4	// P6.2
+
+#define DATA_HIGH		*R_P6oHIGH = AK4366_CTDI
+#define DATA_LOW		*R_P6oLOW = AK4366_CTDI
+#define CLOCK_HIGH		*R_P6oHIGH = AK4366_CCLK
+#define CLOCK_LOW		*R_P6oLOW = AK4366_CCLK
+#define CS_HIGH			*R_P6oHIGH = AK4366_CSN
+#define CS_LOW			*R_P6oLOW = AK4366_CSN
+
+#define AK4366_R_PORT_MANAGEMENT		0
+#define AK4366_F_PORT_MANAGEMENT_MUTEN	(1<<4)
+#define AK4366_F_PORT_MANAGEMENT_PMHPR	(1<<3)
+#define AK4366_F_PORT_MANAGEMENT_PMHPL	(1<<2)
+#define AK4366_F_PORT_MANAGEMENT_PMDAC	(1<<1)
+#define AK4366_F_PORT_MANAGEMENT_PMVCM	(1<<0)
+	
+#define AK4366_R_MODE_CONTROL0			1
+#define AK4366_F_MODE_CONTROL0_MCKAC	(1<<6)
+#define AK4366_F_MODE_CONTROL0_HPM		(1<<5)
+#define AK4366_F_MODE_CONTROL0_DIF2		(1<<4)
+#define AK4366_F_MODE_CONTROL0_DIF1		(1<<3)
+#define AK4366_F_MODE_CONTROL0_DIF0		(1<<2)
+#define AK4366_F_MODE_CONTROL0_DFS1		(1<<1)
+#define AK4366_F_MODE_CONTROL0_DFS0		(1<<0)
+	
+#define AK4366_R_MODE_CONTROL1			2
+#define AK4366_F_MODE_CONTROL1_SMUTE	(1<<4)
+#define AK4366_F_MODE_CONTROL1_BST1		(1<<3)
+#define AK4366_F_MODE_CONTROL1_BST0		(1<<2)
+#define AK4366_F_MODE_CONTROL1_DEM1		(1<<1)
+#define AK4366_F_MODE_CONTROL1_DEM0		(1<<0)
+	
+#define AK4366_R_MODE_CONTROL2			3
+#define AK4366_F_MODE_CONTROL2_ATS		(1<<3)
+#define AK4366_F_MODE_CONTROL2_DATTC	(1<<2)
+#define AK4366_F_MODE_CONTROL2_BCKP		(1<<1)
+#define AK4366_F_MODE_CONTROL2_LRP		(1<<0)
+	
+#define AK4366_R_DAC_LCH_ATT			4
+#define AK4366_F_DAC_LCH_ATT_ATTL7		(1<<7)
+#define AK4366_F_DAC_LCH_ATT_ATTL6		(1<<6)
+#define AK4366_F_DAC_LCH_ATT_ATTL5		(1<<5)
+#define AK4366_F_DAC_LCH_ATT_ATTL4		(1<<4)
+#define AK4366_F_DAC_LCH_ATT_ATTL3		(1<<3)
+#define AK4366_F_DAC_LCH_ATT_ATTL2		(1<<2)
+#define AK4366_F_DAC_LCH_ATT_ATTL1		(1<<1)
+#define AK4366_F_DAC_LCH_ATT_ATTL0		(1<<0)
+	
+#define AK4366_R_DAC_RCH_ATT			5
+#define AK4366_F_DAC_RCH_ATT_ATTR7		(1<<7)
+#define AK4366_F_DAC_RCH_ATT_ATTR6		(1<<6)
+#define AK4366_F_DAC_RCH_ATT_ATTR5		(1<<5)
+#define AK4366_F_DAC_RCH_ATT_ATTR4		(1<<4)
+#define AK4366_F_DAC_RCH_ATT_ATTR3		(1<<3)
+#define AK4366_F_DAC_RCH_ATT_ATTR2		(1<<2)
+#define AK4366_F_DAC_RCH_ATT_ATTR1		(1<<1)
+#define AK4366_F_DAC_RCH_ATT_ATTR0		(1<<0)
+	
+#define AK4366_R_OUTPUT_SELECT			6
+#define AK4366_F_OUTPUT_SELECT_DACR		(1<<1)
+#define AK4366_F_OUTPUT_SELECT_DACL		(1<<0)
+
+void AK4366Set(unsigned char addr, unsigned char adata)
+{
+    unsigned char i;
+    unsigned short ak4366_data=0;
+    volatile unsigned int dtime;
+
+    ak4366_data = ((unsigned short)(addr & 0x1f)<<8)|((unsigned short)adata);
+    ak4366_data |= 0x6000;// 13, 14 High
+    CS_LOW;
+    for (i=0; i<16; i++)
+    {
+        if ((ak4366_data<<i) & (0x8000))
+            DATA_HIGH;
+        else
+            DATA_LOW;
+		
+        *(volatile unsigned char *)0x8002360c =AK4366_CCLK;// clock low
+        for (dtime=0; dtime<10000; dtime++);
+	
+        *(volatile unsigned char *)0x80023608=AK4366_CCLK;// clock high
+        for (dtime=0; dtime<10000; dtime++);
+    }
+    CS_HIGH;
+}
+
+void AK4366Init(BOOL stereo)
+{
+	// Addr	| Register Name		|	D7	| D6	| D5	| D4	| D3	| D2	| D1	| D0
+	// 00H	| Port Management	|	0	| 0		| 0		| MUTEN	| PMHPR	| PMHPL	| PMDAC	| PMVCM
+	// 01H	| Mode Control 0	|	0	| MCKAC	| HPM	| DIF2	| DIF1	| DIF0	| DFS1	| DFS0
+	// 02H	| Mode Control 1	|	0	| 0		| 0		| SMUTE	| BST1	| BST0	| DEM1	| DEM0
+	// 03H	| Mode Control 2	|	0	| 0		| 0		| 0		| ATS	| DATTC	| BCKP	| LRP
+	// 04H	| DAC Lch ATT		| ATTL7	| ATTL6	| ATTL5	| ATTL4	| ATTL3	| ATTL2	| ATTL1	| ATTL0
+	// 05H	| DAC Rch ATT		| ATTR7	| ATTR6	| ATTR5	| ATTR4	| ATTR3	| ATTR2	| ATTR1	| ATTR0
+	// 06H	| Output Select		|	0	| 0		| 0		| 0		| 0		| 0		| DACR	| DACL
+	
+	U32 org = *R_PAF6;
+	
+	*R_PAF6 |= 0x3f;	//PIO6.0 PIO6.1 PIO6.2
+    *R_P6oDIR = (1<<2) | (1<<1) | 1;
+    *R_P6oHIGH |= (1<<2) | (1<<1) | 1;
+
+	AK4366Set(AK4366_R_PORT_MANAGEMENT, AK4366_F_PORT_MANAGEMENT_MUTEN | AK4366_F_PORT_MANAGEMENT_PMHPR | AK4366_F_PORT_MANAGEMENT_PMHPL
+										| AK4366_F_PORT_MANAGEMENT_PMDAC | AK4366_F_PORT_MANAGEMENT_PMVCM);
+	if(stereo == TRUE)
+	{
+		AK4366Set(AK4366_R_MODE_CONTROL0, AK4366_F_MODE_CONTROL0_DIF1 | AK4366_F_MODE_CONTROL0_DIF0);
+	}
+	else
+	{
+		AK4366Set(AK4366_R_MODE_CONTROL0, AK4366_F_MODE_CONTROL0_HPM | AK4366_F_MODE_CONTROL0_DIF1 | AK4366_F_MODE_CONTROL0_DIF0);
+	}
+    AK4366Set(AK4366_R_MODE_CONTROL1, AK4366_F_MODE_CONTROL1_DEM0);
+    AK4366Set(AK4366_R_MODE_CONTROL2, 0);
+    AK4366Set(AK4366_R_DAC_LCH_ATT, AK4366_F_DAC_LCH_ATT_ATTL7 | AK4366_F_DAC_LCH_ATT_ATTL6 | AK4366_F_DAC_LCH_ATT_ATTL4
+									| AK4366_F_DAC_LCH_ATT_ATTL3 | AK4366_F_DAC_LCH_ATT_ATTL2 | AK4366_F_DAC_LCH_ATT_ATTL1 | AK4366_F_DAC_LCH_ATT_ATTL0);
+    AK4366Set(AK4366_R_DAC_RCH_ATT, AK4366_F_DAC_RCH_ATT_ATTR7 | AK4366_F_DAC_RCH_ATT_ATTR6 | AK4366_F_DAC_RCH_ATT_ATTR4
+									| AK4366_F_DAC_RCH_ATT_ATTR3 | AK4366_F_DAC_RCH_ATT_ATTR2 | AK4366_F_DAC_RCH_ATT_ATTR1 | AK4366_F_DAC_RCH_ATT_ATTR0);
+    AK4366Set(AK4366_R_OUTPUT_SELECT, AK4366_F_OUTPUT_SELECT_DACR | AK4366_F_OUTPUT_SELECT_DACL);
+	
+	*R_PAF6 = org;
+}

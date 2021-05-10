@@ -1,0 +1,79 @@
+====================================
+Changelog   CANTUS-TRIP		SDK
+====================================
+
+====================================
+
+2015.02.03
+    Released	    v1.1.1D
+
+/Cantuslib/uart.c
+    Modified	    UartPutCh()
+    Fixed	    Uart_rx_flush()
+		    Uart_tx_flush()
+
+/Cantuslib/sdcard.c
+    Fixed	    read time out
+
+/Cantuslib/i2s.c
+    Removed	    I2S_Puase()
+    Added	    I2S_Pause()
+
+/Cantuslib/twi.c
+    Modified	    twi_start()
+		    twi_read()
+    Added	    twi_read2()
+
+/Cantuslib/interrupt.c
+    Modified    ISRHOOK for both ae32000-elf-gcc 3.x.x and 4.x.x
+
+/include/cantus/uart.h
+    Fixed	    UFC_RFTL
+
+/include/cantus/i2s.h
+    Removed	    I2S_Puase()
+    Added	    I2S_Pause()
+
+/include/cantus/twi.h
+    Added	    twi_read2()
+
+/include/cantus/gdma.h
+    Fixed	    Missed volatile
+
+/include/cantus/watchdog.h
+    Renamed	    Watchdog Timer Control Register (WDTCTRL)
+
+/Example/libmad-0.15.1b-source/libmad/synth_full_ae32kb.s
+    Modified	    For ae32000-elf-gcc 4.x.x
+
+====================================
+
+2015.02.02
+    Released	    v1.0.1D
+
+/Cantuslib/cantus_lib_config.h
+    Added	    Compile Macro Case NAND_ECC 0 or not
+
+/Cantuslib/nandctrl.c
+/include/cantus/nandctrl.h
+    Added	    NAND_MFR_EON2
+
+/Example/Uart/main.c
+    Added	    UartGetData()
+
+/Cantuslib/uart.c
+/include/cantus/uart.h
+    Added	    UartPutData()
+    Modified	    debugstring() always polling mode
+
+/include/cantus/i2s.h
+    Modified	    I2SFreq FREQ_11025=1
+
+====================================
+
+2014.04.09
+    Released	    v1.0.0D
+		    For CANTUS Trip
+		    From SDK v1.8.0
+
+====================================

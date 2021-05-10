@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<EISCStudioProject version="3.00">
+    <Compile BUILDTYPE="library" CC="ae32000-elf-gcc" AS="ae32000-elf-as" LD="ae32000-elf-ld" AR="ae32000-elf-ar" OBJDUMP="ae32000-elf-objdump" OBJCOPY="ae32000-elf-objcopy" CFLAGS="-Wall" LDFLAGS="-Wall -nostartfiles -lgcc -lc -lm" ASFLAGS="" ARFLAGS="-rcv" DISFLAGS="-dzShxl" OUTPUTDIR="../lib/" OBJDIR="obj/" DebugInfo="1" Wall="1" OPTLEVEL="2" OUTPUTFILE="libCantus.a" />
+    <Directory>
+        <INCDIR Name="../include" />
+        <INCDIR Name="../include/cantus" />
+    </Directory>
+    <Files>
+        <Source Name="interrupt.c" />
+        <Source Name="pmu.c" />
+        <Source Name="i2s.c" />
+        <Source Name="uart.c" />
+        <Source Name="timer.c" />
+        <Source Name="rtc.c" />
+        <Source Name="keyscan.c" />
+        <Source Name="spi.c" />
+        <Source Name="twi.c" />
+        <Source Name="usb.c" />
+        <Source Name="cache_util.S" />
+        <Source Name="debugprintf.c" />
+        <Source Name="nandctrl.c" />
+        <Source Name="norflash.c" />
+        <Source Name="sdcard.c" />
+        <Source Name="spiflash.c" />
+        <Source Name="fatfs/diskio.c" />
+        <Source Name="fatfs/ff.c" />
+        <Source Name="fatfs/cc949.c" />
+        <Header Name="cantus_lib_config.h" />
+        <Header Name="../include/typedef.h" />
+        <Header Name="../include/cantus.h" />
+        <Header Name="../include/cantus/paf.h" />
+        <Header Name="../include/cantus/watchdog.h" />
+        <Header Name="../include/cantus/cache.h" />
+        <Header Name="../include/cantus/gdma.h" />
+        <Header Name="../include/cantus/gpio.h" />
+        <Header Name="../include/cantus/i2s.h" />
+        <Header Name="../include/cantus/interrupt.h" />
+        <Header Name="../include/cantus/keyscan.h" />
+        <Header Name="../include/cantus/nandctrl.h" />
+        <Header Name="../include/cantus/norflash.h" />
+        <Header Name="../include/cantus/pmu.h" />
+        <Header Name="../include/cantus/rtc.h" />
+        <Header Name="../include/cantus/sdcard.h" />
+        <Header Name="../include/cantus/spi.h" />
+        <Header Name="../include/cantus/timer.h" />
+        <Header Name="../include/cantus/twi.h" />
+        <Header Name="../include/cantus/uart.h" />
+        <Header Name="../include/cantus/usb.h" />
+        <Header Name="../include/cantus/spiflash.h" />
+        <Header Name="../include/cantus/voice_codec.h" />
+        <Header Name="../include/fatfs/diskio.h" />
+        <Header Name="../include/fatfs/ff.h" />
+        <Header Name="../include/fatfs/ffconf.h" />
+        <Header Name="../include/fatfs/integer.h" />
+        <Header Name="../include/driver/w25xxx_flash.h" />
+        <LastOpenFile Name="cantus_lib_config.h" Line="1" />
+    </Files>
+    <Event cmd="" desc="" enable="true" />
+    <Debug>
+        <Argument Name="" />
+        <UseGlobalOption Name="true" />
+    </Debug>
+</EISCStudioProject>
