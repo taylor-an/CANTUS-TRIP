@@ -8,6 +8,8 @@
 #include "cantus.h"
 #include "tripinit.h"
 
+#define JTAG_AWYS
+
 inline void USB_Enable(void)
 {	
 	*R_PAF6 &= ~PAF6_P64;
@@ -49,9 +51,14 @@ void TRIPinit(void)
 		
 	*R_PAF5 = PAF5_P50	| PAF5_P51	| PAF5_P52	| PAF5_P53
 			| PAF5_P54	| PAF5_P55	| PAF5_P56	| PAF5_P57;
-		
+	
+#ifdef JTAG_AWYS
+	*R_PAF6 = PAF6_TRST	| PAF6_TCK | PAF6_TMS	| PAF6_TDI
+			| PAF6_P64;
+#else
 	*R_PAF6 = PAF6_TRST	| PAF6_P61	| PAF6_TMS	| PAF6_TDI
 			| PAF6_P64;
+#endif
 	
 	// LED
 	*R_P5oDIR |= TRIP_F_LED;
@@ -60,6 +67,8 @@ void TRIPinit(void)
 	// KEY
 	*R_P6iDIR = TRIP_F_KEY;
 	
+#ifndef JTAG_AWYS
 	// USB
 	USB_Disable();
+#endif
 }

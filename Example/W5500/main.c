@@ -1,5 +1,7 @@
 #include "cantus.h"
 #include "tripinit.h"
+#include "trip.h"
+#include "timer_tick.h"
 
 int main()
 {
@@ -8,18 +10,18 @@ int main()
 	InitInterrupt();
 	
 	UartConfig(TRIP_UART_DEBUG, 115200, DATABITS_8, STOPBITS_1, UART_PARNONE);
-	debugstring("================================================\r\n");
+	debugstring("\r\n================================================\r\n");
 	debugprintf(" W5500 TEST. System Clock(%dMhz)\r\n", GetAHBclock()/1000000);
 	debugstring("================================================\r\n");
 	
+	timer_init(1);
+	
 	while(1)
 	{
-		*TRIP_R_LED_ON = TRIP_F_LED;
-		delayms(200);
-		
-		*TRIP_R_LED_OFF = TRIP_F_LED;
-		delayms(200);
+		standby(2);
 	}
 	
 	return 0;
 }
+
+

@@ -8,6 +8,8 @@
         <Source Name="../../startup/start.S" />
         <Source Name="main.c" />
         <Source Name="../../startup/tripinit.c" />
+        <Source Name="timer_tick.c" />
+        <Source Name="trip.c" />
         <Header Name="../../include/cantus.h" />
         <Header Name="../../include/tripinit.h" />
         <Header Name="../../include/typedef.h" />
@@ -32,6 +34,8 @@
         <Header Name="../../include/cantus/util.h" />
         <Header Name="../../include/cantus/voice_codec.h" />
         <Header Name="../../include/cantus/watchdog.h" />
+        <Header Name="timer_tick.h" />
+        <Header Name="trip.h" />
         <LinkScript Name="../../startup/cantus.ld" />
         <Library Name="../../lib/libCantus.a" />
         <LastOpenFile Name="main.c" Line="1" />
