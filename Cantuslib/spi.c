@@ -54,7 +54,9 @@ void spi_master_xfer(U8 *wbuf, int wlength, U8 *rbuf,
 	else
 		rlen = rlength;
 
+#ifndef USE_W5500
 	SPI_CS_LOW();
+#endif
 
 	while (wcnt < wlength) {
 		for (i = 0; i < wlen; ) {
@@ -87,8 +89,10 @@ void spi_master_xfer(U8 *wbuf, int wlength, U8 *rbuf,
 			rlen = rlength - rcnt;
 	}
 
+#ifndef USE_W5500
 	if (continue_xfer == 0)
 		SPI_CS_HIGH();
+#endif
 }
 
 

@@ -11,6 +11,14 @@
 // Port GPIO
 //==============================================================================
 
+#ifdef USE_W5500
+// Port 2
+// 2.6 W5500 RST
+#define TRIP_F_W5500_RST		(1<<6)
+// 2.7 W5500 NCS
+#define TRIP_F_W5500_NCS		(1<<7)
+#endif
+
 // Port 5
 #define TRIP_F_LED		(1<<7)
 

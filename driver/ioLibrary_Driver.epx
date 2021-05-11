@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<EISCStudioProject version="3.00">
+    <Compile BUILDTYPE="library" CC="ae32000-elf-gcc" AS="ae32000-elf-as" LD="ae32000-elf-ld" AR="ae32000-elf-ar" OBJDUMP="ae32000-elf-objdump" OBJCOPY="ae32000-elf-objcopy" CFLAGS="-Wall" LDFLAGS="-Wall -nostartfiles -lgcc -lc -lm" ASFLAGS="" ARFLAGS="-rcv" DISFLAGS="-dzShxl" OUTPUTDIR="../lib/" OBJDIR="./ioLibrary_Driver/obj/" DebugInfo="1" Wall="1" OPTLEVEL="2" OUTPUTFILE="libioLibrary.a" />
+    <Directory>
+        <INCDIR Name="./ioLibrary_Driver/Ethernet" />
+    </Directory>
+    <Files>
+        <Source Name="ioLibrary_Driver/Ethernet/socket.c" />
+        <Source Name="ioLibrary_Driver/Ethernet/wizchip_conf.c" />
+        <Source Name="ioLibrary_Driver/Ethernet/W5500/w5500.c" />
+        <Source Name="ioLibrary_Driver/Application/loopback/loopback.c" />
+        <Source Name="ioLibrary_Driver/Internet/DHCP/dhcp.c" />
+        <Header Name="ioLibrary_Driver/Ethernet/socket.h" />
+        <Header Name="ioLibrary_Driver/Ethernet/wizchip_conf.h" />
+        <Header Name="ioLibrary_Driver/Ethernet/W5500/w5500.h" />
+        <Header Name="ioLibrary_Driver/Application/loopback/loopback.h" />
+        <Header Name="ioLibrary_Driver/Internet/DHCP/dhcp.h" />
+        <LastOpenFile Name="ioLibrary_Driver/Internet/DHCP/dhcp.c" Line="947" />
+    </Files>
+    <Event cmd="" desc="" enable="true" />
+    <Debug>
+        <Argument Name="" />
+        <UseGlobalOption Name="true" />
+    </Debug>
+</EISCStudioProject>

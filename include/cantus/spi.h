@@ -51,12 +51,20 @@
 #define SPI_MASTER_MAXFREQ      (GetAPBclock()/2)
 #define SPI_SLAVE_MAXFREQ       (GetAPBclock()/4)
 
+#define USE_W5500
+
+#ifdef USE_W5500
+// W5500
+#define SPI_CS_LOW()       *R_P2oLOW = (1<<7)
+#define SPI_CS_HIGH()      *R_P2oHIGH = (1<<7)
+#else
 //Board 2.0	
 // #define SPI_CS_LOW()       *R_P2oLOW = (1<<6)
 // #define SPI_CS_HIGH()      *R_P2oHIGH = (1<<6)
 //Board 3.0	
 #define SPI_CS_LOW()       *R_P3oLOW = (1<<0)
 #define SPI_CS_HIGH()      *R_P3oHIGH = (1<<0)
+#endif
 
 void spi_master_init(void);
 int spi_set_freq (int mode, U32 freq);

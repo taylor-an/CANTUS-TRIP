@@ -8,7 +8,7 @@
 #include "cantus.h"
 #include "tripinit.h"
 
-#define JTAG_AWYS
+#define JTAG_USE
 
 inline void USB_Enable(void)
 {	
@@ -46,13 +46,18 @@ void TRIPinit(void)
 	*R_PAF3 = PAF3_P30	| PAF3_P31	| PAF3_P32	| PAF3_P33
 			| PAF3_P34	| PAF3_P35	| PAF3_P36	| PAF3_P37;
 		
+#ifdef USE_W5500
+	*R_PAF4 = PAF4_P40	| PAF4_P41	| PAF4_SPI_MOSI	| PAF4_SPI_MISO
+			| PAF4_SPI_SCK	| PAF4_P45	| PAF4_P46	| PAF4_P47;
+#else
 	*R_PAF4 = PAF4_P40	| PAF4_P41	| PAF4_P42	| PAF4_P43
 			| PAF4_P44	| PAF4_P45	| PAF4_P46	| PAF4_P47;
+#endif
 		
 	*R_PAF5 = PAF5_P50	| PAF5_P51	| PAF5_P52	| PAF5_P53
 			| PAF5_P54	| PAF5_P55	| PAF5_P56	| PAF5_P57;
 	
-#ifdef JTAG_AWYS
+#ifdef JTAG_USE
 	*R_PAF6 = PAF6_TRST	| PAF6_TCK | PAF6_TMS	| PAF6_TDI
 			| PAF6_P64;
 #else
@@ -60,6 +65,12 @@ void TRIPinit(void)
 			| PAF6_P64;
 #endif
 	
+#ifdef USE_W5500
+	*R_P2oDIR = TRIP_F_W5500_RST | TRIP_F_W5500_NCS;
+	*R_P2oLOW = TRIP_F_W5500_RST;
+	*R_P2oHIGH = TRIP_F_W5500_NCS;
+#endif
+		
 	// LED
 	*R_P5oDIR |= TRIP_F_LED;
 	*R_P5oHIGH |= TRIP_F_LED;
@@ -67,7 +78,7 @@ void TRIPinit(void)
 	// KEY
 	*R_P6iDIR = TRIP_F_KEY;
 	
-#ifndef JTAG_AWYS
+#ifndef JTAG_USE
 	// USB
 	USB_Disable();
 #endif

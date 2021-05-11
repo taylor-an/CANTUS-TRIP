@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <EISCStudioProject version="3.00">
-    <Compile BUILDTYPE="executable" CC="ae32000-elf-gcc" AS="ae32000-elf-as" LD="ae32000-elf-ld" AR="ae32000-elf-ar" OBJDUMP="ae32000-elf-objdump" OBJCOPY="ae32000-elf-objcopy" CFLAGS="-Wall" LDFLAGS="-Wall -nostartfiles -lgcc -lc -lm" ASFLAGS="" ARFLAGS="-rcv" DISFLAGS="-dzShxl" OUTPUTDIR="output/" OBJDIR="obj/" DebugInfo="1" Wall="1" OPTLEVEL="0" OUTPUTFILE="W5500.elf" />
+    <Compile BUILDTYPE="executable" CC="ae32000-elf-gcc" AS="ae32000-elf-as" LD="ae32000-elf-ld" AR="ae32000-elf-ar" OBJDUMP="ae32000-elf-objdump" OBJCOPY="ae32000-elf-objcopy" CFLAGS="-Wall" LDFLAGS="-Wall -nostartfiles -lgcc -lc -lm" ASFLAGS="" ARFLAGS="-rcv" DISFLAGS="-dzShxl" OUTPUTDIR="output/" OBJDIR="obj/" DebugInfo="1" Wall="1" OPTLEVEL="2" OUTPUTFILE="W5500.elf" />
     <Directory>
         <INCDIR Name="../../include" />
+        <INCDIR Name="../../driver/ioLibrary_Driver/Ethernet" />
+        <INCDIR Name="../../driver/ioLibrary_Driver/Ethernet/W5500" />
+        <INCDIR Name="../../driver/ioLibrary_Driver/Internet/DHCP" />
+        <INCDIR Name="../../driver/ioLibrary_Driver/Application/loopback" />
     </Directory>
     <Files>
         <Source Name="../../startup/start.S" />
@@ -36,8 +40,14 @@
         <Header Name="../../include/cantus/watchdog.h" />
         <Header Name="timer_tick.h" />
         <Header Name="trip.h" />
+        <Header Name="../../driver/ioLibrary_Driver/Ethernet/socket.h" />
+        <Header Name="../../driver/ioLibrary_Driver/Ethernet/wizchip_conf.h" />
+        <Header Name="../../driver/ioLibrary_Driver/Ethernet/W5500/w5500.h" />
+        <Header Name="../../driver/ioLibrary_Driver/Application/loopback/loopback.h" />
+        <Header Name="../../driver/ioLibrary_Driver/Internet/DHCP/dhcp.h" />
         <LinkScript Name="../../startup/cantus.ld" />
         <Library Name="../../lib/libCantus.a" />
+        <Library Name="../../lib/libioLibrary.a" />
         <LastOpenFile Name="main.c" Line="1" />
     </Files>
     <Event cmd="" desc="" enable="true" />
